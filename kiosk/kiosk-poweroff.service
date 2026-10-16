@@ -1,0 +1,6 @@
+[Unit]
+Description=Desliga o Pi (fim do expediente)
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/systemctl poweroff
