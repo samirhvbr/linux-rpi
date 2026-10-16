@@ -12,3 +12,5 @@ for n in "default arrow pointer text xterm hand1 hand2 grab grabbing watch wait 
     if os.path.lexists(p): os.remove(p)
     os.symlink("left_ptr", p)
 open("/usr/share/icons/blank/index.theme", "w").write("[Icon Theme]\nName=blank\n")
+# O cage usa o tema "default"; faz ele herdar o invisível.
+open("/usr/share/icons/default/index.theme", "w").write("[Icon Theme]\nInherits=blank\n")
