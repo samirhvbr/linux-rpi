@@ -1,0 +1,13 @@
+[Unit]
+Description=Kiosk tab rotation
+After=kiosk.service
+Requires=kiosk.service
+
+[Service]
+User=blue3
+Environment=INTERVAL=60
+ExecStart=/usr/local/bin/kiosk-rotate.sh
+Restart=always
+
+[Install]
+WantedBy=graphical.target
