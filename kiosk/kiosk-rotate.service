@@ -5,7 +5,7 @@ Requires=kiosk.service
 
 [Service]
 User=blue3
-Environment=INTERVAL=60
+Environment=INTERVAL=120
 ExecStart=/usr/local/bin/kiosk-rotate.sh
 Restart=always
 
