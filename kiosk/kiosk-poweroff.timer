@@ -1,8 +1,8 @@
 [Unit]
-Description=Desliga o Pi todo dia as 18h
+Description=Desliga o Pi de segunda a sabado as 18h
 
 [Timer]
-OnCalendar=*-*-* 18:00:00
+OnCalendar=Mon..Sat *-*-* 18:00:00
 Persistent=false
 
 [Install]
