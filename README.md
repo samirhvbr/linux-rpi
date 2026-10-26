@@ -12,6 +12,6 @@ Organização e configuração dos Raspberry Pis das TVs de monitoramento da Blu
 
 ## Kiosk (TVs de monitoramento)
 
-`kiosk/` — Raspberry Pi OS Lite (Debian 13) + `cage` + Chromium em tela cheia, alternando entre as URLs de `kiosk/urls.txt` a cada 120 s (via DevTools, porta local 9222).
+`kiosk/` — Raspberry Pi OS Lite (Debian 13) + `cage` + Chromium em tela cheia, alternando entre as URLs de `kiosk/urls.txt` conforme `kiosk/urls.txt` (URL + segundos na tela) (via DevTools, porta local 9222).
 
 Instalar num Pi novo: `apt install cage chromium curl`, copiar `urls.txt` para `/etc/kiosk/`, os `.sh` para `/usr/local/bin/`, os `.service` para `/etc/systemd/system/`, e `systemctl enable kiosk kiosk-rotate`.

@@ -1,16 +1,41 @@
-#!/bin/bash
-# Alterna entre as abas do Chromium a cada INTERVAL segundos (via DevTools, funciona no Wayland).
-INTERVAL="${INTERVAL:-60}"
-until curl -sf http://127.0.0.1:9222/json/version >/dev/null; do sleep 2; done
-sleep 15
-while true; do
-  mapfile -t IDS < <(curl -sf http://127.0.0.1:9222/json | python3 -c '
-import json,sys
-for t in json.load(sys.stdin):
-    if t.get("type")=="page": print(t["id"])')
-  if [ "${#IDS[@]}" -eq 0 ]; then sleep 5; continue; fi
-  for id in "${IDS[@]}"; do
-    curl -sf "http://127.0.0.1:9222/json/activate/$id" >/dev/null
-    sleep "$INTERVAL"
-  done
-done
+#!/usr/bin/env python3
+"""Alterna entre as abas do Chromium (via DevTools, funciona no Wayland).
+Cada linha de /etc/kiosk/urls.txt: URL [segundos]. A aba e achada pelo host da URL
+(o redirect para /login mantem o host). Sem segundos usa DEFAULT_INTERVAL."""
+import json, os, time, urllib.request
+from urllib.parse import urlparse
+
+DEFAULT = int(os.environ.get("INTERVAL", "60"))
+API = "http://127.0.0.1:9222"
+
+def get(path):
+    with urllib.request.urlopen(API + path, timeout=5) as r:
+        return r.read()
+
+def load():
+    out = []
+    for line in open("/etc/kiosk/urls.txt"):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        p = line.split()
+        out.append((urlparse(p[0]).netloc, int(p[1]) if len(p) > 1 else DEFAULT))
+    return out
+
+while True:
+    try:
+        get("/json/version"); break
+    except Exception:
+        time.sleep(2)
+time.sleep(15)
+while True:
+    try:
+        pages = [t for t in json.loads(get("/json")) if t.get("type") == "page"]
+        for host, secs in load():
+            for t in pages:
+                if urlparse(t["url"]).netloc == host:
+                    get("/json/activate/" + t["id"])
+                    break
+            time.sleep(secs)
+    except Exception:
+        time.sleep(5)
