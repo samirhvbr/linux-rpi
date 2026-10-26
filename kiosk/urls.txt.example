@@ -1,0 +1,4 @@
+# URL  segundos_na_tela
+http://100.64.100.240:8080/ 60
+http://100.64.100.240:8282/?token=COLOQUE_O_TOKEN&tv=1&rotate=1&page_seconds=20&page_size=8&reload_seconds=120 30
+https://samirhv.com.br/admin/ai-memory 30

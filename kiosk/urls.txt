@@ -1,3 +1,0 @@
-# URL  segundos_na_tela
-http://100.64.100.240:8080/ 120
-https://samirhv.com.br/admin/ai-memory 30
